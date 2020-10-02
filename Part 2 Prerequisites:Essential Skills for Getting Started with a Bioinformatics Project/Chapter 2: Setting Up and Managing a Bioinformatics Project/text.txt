@@ -127,5 +127,18 @@
     $ ls seqs/
     zmaysA_R1.fastq zmaysB_R1.fastq zmaysC_R1.fastq
     zmaysA_R2.fastq zmaysB_R2.fastq zmaysC_R2.fastq
-    
+    在命名策略方面，每个文件名有两个变量，样本变量和测序read变量。假设你想获得所有变量名有zmayB(不管是那一条read)
+可以使用下面的方式：
+    $ ls seqs/zmaysB*
+    zmaysB_R1.fastq zmaysB_R2.fastq
+    星号会匹配所有的文件和目录名（这个过程叫全局匹配），在前面的例子中，你的通配符zmaysB*匹配zmaysB_R1.fastq,匹配zmaysB_R1.fastq,
+因为这两个文件是zmaysB开头的。如果你的目录中有几百个zmaysB 文件，可以用星号通配符轻松操作。
+    星号和参数太长
+    OS X和Windows中，限制了命令行参数的数目。当使用星号通配符匹配许多文件时候，我们有些时候超过了这个数目。一旦这些发生，你会看到参数量
+太多的报错，因为你超过了这个数目。幸运的是，有一个很明智的方式处理这个（411页中，利用find和xargs）。
+    一般情况下，最好是限制性使用星号。这会避免一些错误的匹配。例如，你的同事创建了一个zmaysB-interesting-SNPs-found.xls文件，当使用
+zmaysB*会错误匹配。如果你想处理zmaysB FASTQ 文件，使用ZmaysB*会匹配Excel文件而导致这些问题。这就是为什么要限制性使用星号通配符。
+可以使用zmaysB*fastq 或者 zmaysB_R?.fastq取代zmaysB*。
 
+    还有其他一些简单的shell通配符，它​​們在編程上非常方便访问文件。假设一个合作者告诉你C的样本的测序质量很差，因此你只想对A，B分析，对C进行
+重新测序。你在没有获得C的新样本之前，不想删除原先的文件，所以你应该忽略他。

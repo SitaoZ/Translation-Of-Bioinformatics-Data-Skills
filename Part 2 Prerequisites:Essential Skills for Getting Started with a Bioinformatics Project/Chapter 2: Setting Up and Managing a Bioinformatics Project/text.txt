@@ -245,4 +245,19 @@ microsoftword文档中这样做。与自述文件一样，生物信息学家通�
     <http://website.com/link>   Hyperlink to http://website.com/link  #超链接网页
     [link text](http://website.com/link)    Hyperlink to http://website.com/link, with text “linktext”  # 使用字符来超链接网页
     ![alt text](path/to/figure.png)     Image, with alternative text “alt text”
-    
+    像标题，列表，代码块是比较简单的。不同层级的标题用行前面的#的个数区分。例如
+    # Header level 1
+    ## Header level 2
+    ### Header level 3 
+    MarkDown的标题最多使用6级。也可以使用另外一种语法表示两级标题：
+    Header level 1
+    ==============
+    Header level 2
+    --------------
+    有序和无序的列表也很简单。对于无序列表，请使用破折号、星号或加号作为列表元素标记。例如，使用破折号：
+    - Francis Crick
+    - James D. Watson
+    - Rosalind Franklin
+    要排序，只需使用数字（即1、2、3等）。排序并不重要，因为HTML会自动为您增加这些值。但是，清晰地编号
+您的要点仍然是一个好主意，这样纯文本版本是可读的。
+    代码块非常简单，只需在每行代码前添加四个空格或一个制表符：

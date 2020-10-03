@@ -57,10 +57,12 @@ Unix哲学的模块化方法在生物信息学中有许多优势：
 很简单的。但是这种能力带来了风险：unixshell不关心命令是否输入错误或如果他们要销毁文件；unixshell并不是为了阻止你
 这样做不安全的东西。Gary bernhardt给出了一个很好的类比：Unix就像一个电锯。电锯是一种功能强大的工具，使许多困难的
 工作，如切割厚圆木相当容易。不幸的是，这种力量伴随着危险：电锯可以很容易地切断你的腿（嗯，技术上更容易）。例如，考虑
-    $ rm -rf tmp-data/aligned-reads* # deletes all old large files
-    $ # versus
-    $ rm -rf tmp-data/aligned-reads * # deletes your entire current directory
-    rm: tmp-data/aligned-reads: No such file or directory
+```bash 
+$ rm -rf tmp-data/aligned-reads* # deletes all old large files
+$ # versus
+$ rm -rf tmp-data/aligned-reads * # deletes your entire current directory
+rm: tmp-data/aligned-reads: No such file or directory
+```
     在Unix中，一个空格可能意味着清理一些旧文件和延迟完成项目之间的区别，因为您意外地删除了所有内容。
 这不是什么应该引起警报的东西，这是使用强大工具的结果。相反，在实验或尝试时要采取谨慎的态度新命令
 （例如，在一个临时目录中工作，如果不确定命令的行为方式，则使用假文件或数据，并始终保留备份）。
@@ -85,30 +87,34 @@ Unix shell具有允许您执行功能强大（可能不安全）的功能，这�
     简单的合并两个文件可以采用流。使用流可以让我们减少内存的使用。相反，我们合并大文件通过把他们打印到标准输出，
 然后重定向流到一个文件。你可能是用cat打印文件的内容到标准输出（当没有重定向时，它会被打印到终端屏幕上）。例如，
 我们可以看看tb1-蛋白质.fasta文件（可在GitHub上本章的目录中找到）使用cat将其打印到标准输出：
-    $ cat tb1-protein.fasta
-    >teosinte-branched-1 protein
-    LGVPSVKHMFPFCDSSSPMDLPLYQQLQLSPSSPKTDQSSSFYCYPCSPP
-    FAAADASFPLSYQIGSAAAADATPPQAVINSPDLPVQALMDHAPAPATEL
-    GACASGAEGSGASLDRAAAAARKDRHSKICTAGGMRDRRMRLSLDVARKF
-    FALQDMLGFDKASKTVQWLLNTSKSAIQEIMADDASSECVEDGSSSLSVD
-    GKHNPAEQLGGGGDQKPKGNCRGEGKKPAKASKAAATPKPPRKSANNAHQ
-    VPDKETRAKARERARERTKEKHRMRWVKLASAIDVEAAAASVPSDRPSSN
-    NLSHHSSLSMNMPCAAA
+```bash
+$ cat tb1-protein.fasta
+>teosinte-branched-1 protein
+LGVPSVKHMFPFCDSSSPMDLPLYQQLQLSPSSPKTDQSSSFYCYPCSPP
+FAAADASFPLSYQIGSAAAADATPPQAVINSPDLPVQALMDHAPAPATEL
+GACASGAEGSGASLDRAAAAARKDRHSKICTAGGMRDRRMRLSLDVARKF
+FALQDMLGFDKASKTVQWLLNTSKSAIQEIMADDASSECVEDGSSSLSVD
+GKHNPAEQLGGGGDQKPKGNCRGEGKKPAKASKAAATPKPPRKSANNAHQ
+VPDKETRAKARERARERTKEKHRMRWVKLASAIDVEAAAASVPSDRPSSN
+NLSHHSSLSMNMPCAAA
+```
     cat还允许我们将多个文件的内容按命令参数出现的顺序打印到标准输出流中。这基本上连接了这些文件，如下所示的tb1和
 tga1翻译序列：
-    $ cat tb1-protein.fasta tga1-protein.fasta
-    >teosinte-branched-1 protein
-    LGVPSVKHMFPFCDSSSPMDLPLYQQLQLSPSSPKTDQSSSFYCYPCSPP
-    FAAADASFPLSYQIGSAAAADATPPQAVINSPDLPVQALMDHAPAPATEL
-    GACASGAEGSGASLDRAAAAARKDRHSKICTAGGMRDRRMRLSLDVARKF
-    FALQDMLGFDKASKTVQWLLNTSKSAIQEIMADDASSECVEDGSSSLSVD
-    GKHNPAEQLGGGGDQKPKGNCRGEGKKPAKASKAAATPKPPRKSANNAHQ
-    VPDKETRAKARERARERTKEKHRMRWVKLASAIDVEAAAASVPSDRPSSN
-    NLSHHSSLSMNMPCAAA
-    >teosinte-glume-architecture-1 protein
-    DSDCALSLLSAPANSSGIDVSRMVRPTEHVPMAQQPVVPGLQFGSASWFP
-    RPQASTGGSFVPSCPAAVEGEQQLNAVLGPNDSEVSMNYGGMFHVGGGSG
-    GGEGSSDGGT
+```bash 
+$ cat tb1-protein.fasta tga1-protein.fasta
+>teosinte-branched-1 protein
+LGVPSVKHMFPFCDSSSPMDLPLYQQLQLSPSSPKTDQSSSFYCYPCSPP
+FAAADASFPLSYQIGSAAAADATPPQAVINSPDLPVQALMDHAPAPATEL
+GACASGAEGSGASLDRAAAAARKDRHSKICTAGGMRDRRMRLSLDVARKF
+FALQDMLGFDKASKTVQWLLNTSKSAIQEIMADDASSECVEDGSSSLSVD
+GKHNPAEQLGGGGDQKPKGNCRGEGKKPAKASKAAATPKPPRKSANNAHQ
+VPDKETRAKARERARERTKEKHRMRWVKLASAIDVEAAAASVPSDRPSSN
+NLSHHSSLSMNMPCAAA
+>teosinte-glume-architecture-1 protein
+DSDCALSLLSAPANSSGIDVSRMVRPTEHVPMAQQPVVPGLQFGSASWFP
+RPQASTGGSFVPSCPAAVEGEQQLNAVLGPNDSEVSMNYGGMFHVGGGSG
+GGEGSSDGGT
+```
     虽然这些文件已连接，但结果不会保存在这些文件的任何位置线只是打印到终端屏幕上。为了保存这些串联的
 结果到一个文件，你需要从你的终端重定向这个标准输出流屏蔽到文件。重定向是Unix中的一个重要概念，也是生
 物信息学中经常使用的概念。
@@ -121,14 +127,27 @@ tga1翻译序列：
 出流以zea-proteins.fasta文件。将标准输出流重定向到文件如下所示:
     我们可以通过检查这个目录中最近创建的文件是否是我们刚刚创建的文件（即zea）来验证我们的重定向是否
 正常工作-蛋白质.fasta):
-    ls -lrt
-    total 24
-    -rw-r--r-- 1 vinceb staff 353 Jan 20 21:24 tb1-protein.fasta
-    -rw-r--r-- 1 vinceb staff 152 Jan 20 21:24 tga1-protein.fasta
-    -rw-r--r-- 1 vinceb staff 505 Jan 20 21:35 zea-proteins.fasta
+```bash
+ls -lrt
+total 24
+-rw-r--r-- 1 vinceb staff 353 Jan 20 21:24 tb1-protein.fasta
+-rw-r--r-- 1 vinceb staff 152 Jan 20 21:24 tga1-protein.fasta
+-rw-r--r-- 1 vinceb staff 505 Jan 20 21:35 zea-proteins.fasta
+```
     将-lrt添加到ls列出此目录中以列表格式（-l）的文件，倒序（-r）时间排序（-t）（有关详细信息，请参
 阅man ls）。另外，请注意这些标志组合成-lrt；这是一个常见的语法快捷方式。如果你想看最新的文件在顶部，
 您可以省略r标志。
     重定向标准错误
-    
+    由于许多程序使用标准输出流来输出数据，因此流对于用户要读取的错误、警告和消息是必需的。标准错误是
+一个仅用于此目的的流（如图3-1所示）。像标准的输出，默认情况下，标准错误被定向到您的终端。在实践中，我
+们经常希望将标准错误流重定向到文件以便消息、错误和警告记录到一个文件中，我们可以稍后检查。
 
+    为了说明如何重定向标准输出和标准错误，我们将使用ls-l命令列出现存在的文件（tb1.fasta）和不存在的文件
+（leafy1.fasta）。现有文件tb1.fasta的ls-l输出将被发送到标准输出，同时会出现一条错误消息leafy1.fasta
+不存在。现有文件tb1.fasta的ls-l输出将被发送到标准输出，而错误消息leafy1.fasta不存在将输出到标准错误。
+当您不重定向任何内容时，两个流都会输出到您的终端：
+```bash 
+$ ls -l tb1.fasta leafy1.fasta
+ls: leafy1.fasta: No such file or directory
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:58 tb1.fasta
+```

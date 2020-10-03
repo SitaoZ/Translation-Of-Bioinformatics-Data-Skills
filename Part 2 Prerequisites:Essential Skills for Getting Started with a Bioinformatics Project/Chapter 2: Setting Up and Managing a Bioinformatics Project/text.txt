@@ -277,3 +277,6 @@ microsoftword文档中这样做。与自述文件一样，生物信息学家通�
     Pandoc可以在各种不同的标记和输出格式之间进行转换.使用Pandoc很容易将Markdown转换为HTML，使用--from 
 Markdown和--to HTML选项并将输入文件作为最后一个参数：
     $ pandoc --from markdown --to html notebook.md > output.html
+    默认情况下，Pandoc将输出写入标准输出，我们可以将其重定向到一个文件（我们将在第3章中了解有关标准输出和重定向的更多信息）。
+我们还可以使用--output指定输出文件输出.html.最后，请注意Pandoc可以在多种格式之间进行转换，而不仅仅是将Markdown转换为HTML。
+在本章的GitHub自述中，我还提供了更多的例子，包括如何从HTML转换成PDF。

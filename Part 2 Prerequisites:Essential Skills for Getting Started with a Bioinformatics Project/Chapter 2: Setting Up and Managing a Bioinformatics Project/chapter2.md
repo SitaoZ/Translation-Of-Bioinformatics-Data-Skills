@@ -18,15 +18,17 @@
     将您的所有文件保存在一个目录中将大大简化您和你的合作者，以及促进可复制性（我们将讨论如何协作
 在第5章中使用Git编写一个项目目录）。假设你在找寻玉米SNP。你的第一步是选择一个短的，合适的项目名
 称并创建一些基本目录：
-    $ mkdir zmays-snps
-    $ cd zmays-snps
-    $ mkdir data
-    $ mkdir data/seqs scripts analysis
-    $ ls -l
-    total 0
-    drwxr-xr-x 2 vinceb staff 68 Apr 15 01:10 analysis
-    drwxr-xr-x 3 vinceb staff 102 Apr 15 01:10 data
-    drwxr-xr-x 2 vinceb staff 68 Apr 15 01:10 scripts
+```bash
+$ mkdir zmays-snps
+$ cd zmays-snps
+$ mkdir data
+$ mkdir data/seqs scripts analysis
+$ ls -l
+total 0
+drwxr-xr-x 2 vinceb staff 68 Apr 15 01:10 analysis
+drwxr-xr-x 3 vinceb staff 102 Apr 15 01:10 data
+drwxr-xr-x 2 vinceb staff 68 Apr 15 01:10 scripts
+```
     这是一个明智的项目布局方案。在这里，数据/包含所有原始和中间数据数据。正如我们将看到的，
 在data/，数据处理步骤被视为独立的子目录。我将一般项目需要的脚本保存在scripts/目录中。
 如果脚本包含许多文件（例如，多个Python模块），它们应该驻留在自己的文件中子目录。将脚本隔离
@@ -39,7 +41,9 @@
 人养成了在文件名和目录名中使用空格的坏习惯。这在基于Unix的环境中不合适，因为空格用于分隔命
 令中的参数。例如，假设您从GUI创建一个名为raw sequences的目录（例如，通过OS X的Finder），
 然后尝试使用以下命令删除它及其内容：
-    $ rm -rf raw sequences
+```bash
+$ rm -rf raw sequences
+```
     如果幸运的话，会警告您raw和sequences“没有这样的文件或目录”。这是怎么回事？空间很重要：
 您的shell将rm命令解释为“同时删除原始和序列文件”，而不是“删除一个名为raw sequences的文件或目录”。
     如果你不幸的有一个文件或目录原始或序列，此rm命令将删除它。有可能通过使用引号
@@ -92,7 +96,9 @@
     例如data/README 文件会会包括你data/下面使用的所有数据。当你想要回忆起你项目中所有数据信息时，将这些信息放在README中
 是比较容易的。我们说touch 创建readme.touch 会更新文件修改时间，创建新的文件。我们使用的是touch后面的那个功能来创建空文件
 放在我们的目录结构中。
-    $ touch README data/README
+```bash
+$ touch README data/README
+```
     遵循刚刚讨论的文档指南，data/README 包含从哪里下载的数据，什么时候下载的，怎样下载的。我们在第六章将会学习更多的的数据
 的知识，我们看到怎么下载数据，怎样记录数的的例子。
     通过记录这些信息，我们就记录了实验和分析的全部信息，这样使得项目有很好的可重复性。请记住，随着您的项目的发展和数据文件的积累
@@ -114,23 +120,31 @@
 用通配符。像星号这样的通配符（*）也會被您的shell扩展到所有匹配的文件。
     另外一个shell通配符就是括号通配符。使用一个命令，快速创建zmays/snps项目结构。括号通配就是通过在括号中创建用逗号分隔的字符串。
 例子如下：
-    $ echo dog-{gone,bowl,bark}
-    dog-gone dog-bowl dog-bark
+```bash 
+$ echo dog-{gone,bowl,bark}
+dog-gone dog-bowl dog-bark
+```
     利用同样的方式，你可以创建下面的目录结构
-    $ mkdir -p zmays-snps/{data/seqs,scripts,analysis}
+```bash 
+$ mkdir -p zmays-snps/{data/seqs,scripts,analysis}
+```
     我们将会用例子来阐述每一个点，学习一些重要的shell通配符技巧。例如，组织数据目录到一个目录，使用一致的命名为我们
 使用这个技巧你能够轻松的移动60个文件像6个文件一样轻松。你也可以选择特定的文件，将他们作为附件添加到邮件发送。利用一致性的命名方式和
 目录结构，你能在shell和其他语言中轻松实现。
     我们会看到使用星号自动创建任务。后面再第十二章中，我们将会看到更多高级的批量处理文件的用法。
-    $ cd data
-    $ touch seqs/zmays{A,B,C}_R{1,2}.fastq
-    $ ls seqs/
-    zmaysA_R1.fastq zmaysB_R1.fastq zmaysC_R1.fastq
-    zmaysA_R2.fastq zmaysB_R2.fastq zmaysC_R2.fastq
+```bash
+$ cd data
+$ touch seqs/zmays{A,B,C}_R{1,2}.fastq
+$ ls seqs/
+zmaysA_R1.fastq zmaysB_R1.fastq zmaysC_R1.fastq
+zmaysA_R2.fastq zmaysB_R2.fastq zmaysC_R2.fastq
+```
     在命名策略方面，每个文件名有两个变量，样本变量和测序read变量。假设你想获得所有变量名有zmayB(不管是那一条read)
 可以使用下面的方式：
-    $ ls seqs/zmaysB*
-    zmaysB_R1.fastq zmaysB_R2.fastq
+```bash
+$ ls seqs/zmaysB*
+zmaysB_R1.fastq zmaysB_R2.fastq
+```
     星号会匹配所有的文件和目录名（这个过程叫全局匹配），在前面的例子中，你的通配符zmaysB*匹配zmaysB_R1.fastq,匹配zmaysB_R1.fastq,
 因为这两个文件是zmaysB开头的。如果你的目录中有几百个zmaysB 文件，可以用星号通配符轻松操作。
     星号和参数太长
@@ -143,10 +157,13 @@ zmaysB*会错误匹配。如果你想处理zmaysB FASTQ 文件，使用ZmaysB*�
     还有其他一些简单的shell通配符，它​​們在編程上非常方便访问文件。假设一个合作者告诉你C的样本的测序质量很差，因此你只想对A，B分析，对C进行
 重新测序。你在没有获得C的新样本之前，不想删除原先的文件，所以你应该忽略他。发明通配符的人意识到了这个问题，所以他们允许通配符可以匹配特定字段，
 或者指定字符的范围。例如，你可以[UVWXY]或者[U-Y]匹配 U,V,W,X,Y。回到我们的例子，你可以使用如下命令匹配C之外的样本。
-    $ ls zmays[AB]_R1.fastq
-    zmaysA_R1.fastq zmaysB_R1.fastq
-    $ ls zmays[A-B]_R1.fastq
-    zmaysA_R1.fastq zmaysB_R1.fastq
+```bash 
+$ ls zmays[AB]_R1.fastq
+zmaysA_R1.fastq zmaysB_R1.fastq
+$ ls zmays[A-B]_R1.fastq
+zmaysA_R1.fastq zmaysB_R1.fastq
+```
+
     使用[A-B]看起来没有必要，但是当我们有A至I这么多样本时，像zmays[C-I]_R1.fastq比打印出[CDEFGHI]_R1.fastq要方便的多。还有一个很重要的
 警告就是，区间只能读字符进行操作，对数字不行。这意味着，你想使用通配符snps_[10-13].txt 它不会匹配 snps_10.txt,snps_11.txt,snps_12.txt,
 和 snps_13.txt.
@@ -169,20 +186,24 @@ sample-B2.fastq比较复杂，因为它们的文件名高度不一致。不幸�
     另外一个技巧就是命名时使用前置0，（file-0021.txt而不是file-21.txt）。这是有用的，因为从词典学的角度来看
 对文件进行排序（就像ls一样）可以得到正确的排序。例如，如果我们有诸如gene-1.txt、gene-2.txt、…、gene-14.txt
 等文件名，按字典顺序对这些文件进行排序将得到：
-    $ ls -l
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-1.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-11.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-12.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-13.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-14.txt
-    [...]
+```bash
+$ ls -l
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-1.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-11.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-12.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-13.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:24 genes-14.txt
+[...]
+```
     但是，如果我们使用前导零（例如，gene-001.txt、gene-002.txt、…、gene-014.txt），则文件按正确的顺序排序：
-    $ ls -l
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-001.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-002.txt
-    [...]
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-013.txt
-    -rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-014.txt
+```bash 
+$ ls -l
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-001.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-002.txt
+[...]
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-013.txt
+-rw-r--r-- 1 vinceb staff 0 Feb 21 21:23 genes-014.txt
+```
     使用前导零不仅仅在命名文件名时有用；这也是命名基因、转录本等的最佳方法。像Ensembl这样的项目在命名他们的基因时
 使用这个命名方案（例如，ensg0000164256）。
     除了简化对文件的处理外，一致的文件命名是健壮的生物信息学中经常被忽视的一个组成部分。错误的样本命名方案很容易导致样本混淆。
@@ -207,34 +228,35 @@ microsoftword文档中这样做。与自述文件一样，生物信息学家通�
 而且很容易嵌入链接和图像。虽然MarkDown格式非常简单，但有一些不同的变体。在我们的例子中,我们将使用原始的MarkDown
 格式，由约翰·格鲁伯发明.下面是一些MarkDown的基本语法。
 
-    # *Zea Mays* SNP Calling
-    We sequenced three lines of *zea mays*, using paired-end
-    sequencing. This sequencing was done by our sequencing core and we
-    received the data on 2013-05-10. Each variety should have **two**
-    sequences files, with suffixes `_R1.fastq` and `_R2.fastq`, indicating
-    which member of the pair it is.
+# *Zea Mays* SNP Calling
+We sequenced three lines of *zea mays*, using paired-end
+sequencing. This sequencing was done by our sequencing core and we
+received the data on 2013-05-10. Each variety should have **two**
+sequences files, with suffixes `_R1.fastq` and `_R2.fastq`, indicating
+which member of the pair it is.
 
-    ## Sequencing Files
-    All raw FASTQ sequences are in `data/seqs/`:
-    $ find data/seqs -name "*.fastq"
-    data/seqs/zmaysA_R1.fastq
-    data/seqs/zmaysA_R2.fastq
-    data/seqs/zmaysB_R1.fastq
-    data/seqs/zmaysB_R2.fastq
-    data/seqs/zmaysC_R1.fastq
-    data/seqs/zmaysC_R2.fastq
-    ## Quality Control Steps
-    After the sequencing data was received, our first stage of analysis
-    was to ensure the sequences were high quality. We ran each of the
-    three lines' two paired-end FASTQ files through a quality diagnostic
-    and control pipeline. Our planned pipeline is:
-    1. Create base quality diagnostic graphs.
-    2. Check reads for adapter sequences.
-    3. Trim adapter sequences.
-    4. Trim poor quality bases.
-    Recommended trimming programs:
-    - Trimmomatic
-    - Scythe
+## Sequencing Files
+All raw FASTQ sequences are in `data/seqs/`:
+$ find data/seqs -name "*.fastq"
+data/seqs/zmaysA_R1.fastq
+data/seqs/zmaysA_R2.fastq
+data/seqs/zmaysB_R1.fastq
+data/seqs/zmaysB_R2.fastq
+data/seqs/zmaysC_R1.fastq
+data/seqs/zmaysC_R2.fastq
+## Quality Control Steps
+After the sequencing data was received, our first stage of analysis
+was to ensure the sequences were high quality. We ran each of the
+three lines' two paired-end FASTQ files through a quality diagnostic
+and control pipeline. Our planned pipeline is:
+1. Create base quality diagnostic graphs.
+2. Check reads for adapter sequences.
+3. Trim adapter sequences.
+4. Trim poor quality bases.
+Recommended trimming programs:
+- Trimmomatic
+- Scythe
+
     图2-1显示了Pandoc在HTML5中呈现的MarkDown笔记本示例。Markdown是一种很好的实验室笔记本格式，它同样易于阅读
 在呈现的HTML中未呈现的纯文本。接下来，我们来看看MarkDown本例中使用的语法（参考表2-2）。
     MarkDown 行中的语法
